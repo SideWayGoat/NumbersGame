@@ -12,7 +12,7 @@ namespace NumbersGame
         {
             Random RN = new Random();
             bool isRunning = true;
-            int GuessCount = 1;
+            int GuessCount = 0;
             while (isRunning)
             {
                 PrintMenu();
@@ -56,7 +56,7 @@ namespace NumbersGame
                             {
                             TheNumbersGame(HardMode);
                                 GuessCount++;
-                            } while (GuessCount < 3);
+                            } while (GuessCount <= 3);
                             if(GuessCount == 3)
                             {
                             Console.WriteLine("Ajajaj, jag tänkte på {0}, kom du nära?", HardMode);
@@ -96,5 +96,6 @@ namespace NumbersGame
             else if(userGuess < RN)
                 Console.WriteLine("Jag tänkte på ett tal som är högre");
         }
+
     }
 }
