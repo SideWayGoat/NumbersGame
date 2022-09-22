@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NumbersGame
 {
@@ -10,61 +6,61 @@ namespace NumbersGame
     {
         static void Main(string[] args)
         {
-            Random RN = new Random();
-            bool isRunning = true;
-            int GuessCount = 0;
-            while (isRunning)
+            Random Random = new Random();
+            bool IsRunning = true;
+
+            do
             {
                 PrintMenu();
                 if (int.TryParse(Console.ReadLine(), out int MenuChoice))
                 {
+                    int GuessCount = 0;
                     switch (MenuChoice)
                     {
                         case 1:
-                            int EasyMode = RN.Next(1, 21);
+                            int EasyMode = Random.Next(1, 21);
                             Console.WriteLine("Easy mode, du får gissa 10 gånger");
                             do
                             {
+                                if (GuessCount == 10)
+                                {
+                                    Console.WriteLine("Ouch, du klarade inte det, bättre lycka nästa gång\nSvaret var {0}", EasyMode);
+                                    Console.ReadKey();
+                                }
                                 TheNumbersGame(EasyMode);
                                 GuessCount++;
-                            } while (GuessCount < 10);
-                            if(GuessCount == 10)
-                            {
-                                Console.WriteLine("Ouch, du klarade inte det, bättre lycka nästa gång\nSvaret var {0}",EasyMode);
-                                Console.ReadKey();
-                            }
+                            } while (GuessCount <= 10);
                             break;
                         case 2:
-                            int MediumMode = RN.Next(1, 51);
+                            int MediumMode = Random.Next(1, 51);
                             Console.WriteLine("Du har valt medium svårighetsgrad, du får 5 försök:");
                             do
                             {
+                                if (GuessCount == 5)
+                                {
+                                    Console.WriteLine("Synd! Svaret var {0}, bättre lycka nästa gång!", MediumMode);
+                                    Console.ReadKey();
+                                }
                                 TheNumbersGame(MediumMode);
                                 GuessCount++;
-                            } while (GuessCount < 5);
-                            if(GuessCount == 5)
-                            {
-                                Console.WriteLine("Synd! Svaret var {0}, du kan klara detta!",MediumMode);
-                                Console.ReadKey();
-                            }
+                            } while (GuessCount <= 5);
                             break;
                         case 3:
-
-                            int HardMode = RN.Next(1, 101);
+                            int HardMode = Random.Next(1, 101);
                             Console.WriteLine("Modigt! Du får 3 chanser, vi får se om du klarar detta, lycka till!");
                             do
                             {
-                            TheNumbersGame(HardMode);
+                                if (GuessCount == 3)
+                                {
+                                    Console.WriteLine("jag tänkte på {0}, kom du nära?", HardMode);
+                                }
+                                TheNumbersGame(HardMode);
                                 GuessCount++;
                             } while (GuessCount <= 3);
-                            if(GuessCount == 3)
-                            {
-                            Console.WriteLine("Ajajaj, jag tänkte på {0}, kom du nära?", HardMode);
-                            Console.ReadKey();
-                            }
                             break;
                         case 4:
-                            isRunning = false;
+                            Console.WriteLine("Avslutar programmet");
+                            IsRunning = false;
                             break;
                         default:
                             Console.WriteLine("Du har valt ett nummer utanför menyn, välj 1, 2 eller 3 för att spela eller 4 för att avlsuta");
@@ -74,10 +70,10 @@ namespace NumbersGame
                 }
                 else
                     Console.WriteLine("Du måste välja ett giltigt nummer {0} är inte giltigt i menu", MenuChoice);
-            }
+            } while (IsRunning);
 
         }
-        private static void PrintMenu()
+        public static void PrintMenu()
         {
             Console.Clear();
             Console.WriteLine("Välkommen till gissa nummret");
@@ -86,16 +82,16 @@ namespace NumbersGame
 
         public static void TheNumbersGame(int RN)
         {
-            int userGuess = Convert.ToInt32(Console.ReadLine());
-            if(userGuess == RN)
-            {
+            string UserChoice = Console.ReadLine();
+            if (UserChoice.Equals(String.Empty))
+                return;
+            int userGuess = Convert.ToInt32(UserChoice);
+            if (userGuess == RN)
                 Console.WriteLine("Grattis! Du klarade det!");
-            }
-            else if(userGuess > RN)
+            else if (userGuess > RN)
                 Console.WriteLine("Jag tänkte på ett tal som är lägre");
-            else if(userGuess < RN)
+            else if (userGuess < RN)
                 Console.WriteLine("Jag tänkte på ett tal som är högre");
         }
-
     }
 }
